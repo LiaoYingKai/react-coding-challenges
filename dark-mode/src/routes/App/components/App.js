@@ -18,11 +18,12 @@ const ThemeClassMap = {
   [DARK_MODE]: 'dark-mode'
 }
 
+const IconMap = {
+  [LIGHT_MODE]: <FontAwesomeIcon icon={faMoon} />,
+  [DARK_MODE]:  <FontAwesomeIcon icon={faSun} />,
+}
+
 function App() {
-  const IconMap = {
-    [LIGHT_MODE]: <FontAwesomeIcon icon={faMoon} />,
-    [DARK_MODE]:  <FontAwesomeIcon icon={faSun} />,
-  }
   const [mode, setMode] = useState(LIGHT_MODE)
   const htmlDom = document.querySelector('html')
   const htmlRef = useRef(htmlDom)
