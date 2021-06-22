@@ -1,9 +1,43 @@
-import React from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMoon } from '@fortawesome/free-solid-svg-icons';
+import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import '../styles/_app.scss';
 
+const ThemeModeMap = {
+  LIGHT_MODE: 'light',
+  DARK_MODE: 'dark'
+}
+
+const {
+  LIGHT_MODE,
+  DARK_MODE,
+} = ThemeModeMap
+
+const ThemeClassMap = {
+  [LIGHT_MODE]: 'light-mode',
+  [DARK_MODE]: 'dark-mode'
+}
+
 function App() {
+  const IconMap = {
+    [LIGHT_MODE]: <FontAwesomeIcon icon={faMoon} />,
+    [DARK_MODE]:  <FontAwesomeIcon icon={faSun} />,
+  }
+  const [mode, setMode] = useState(LIGHT_MODE)
+  const htmlDom = document.querySelector('html')
+  const htmlRef = useRef(htmlDom)
+
+  function handleToggleMode() {
+    const nextMode = mode === LIGHT_MODE ? DARK_MODE : LIGHT_MODE
+    
+    setMode(nextMode)
+    htmlRef.current.classList.remove(ThemeClassMap[mode])
+  }
+
+  useEffect(() => {
+    htmlRef.current.classList.add(ThemeClassMap[mode])
+  }, [mode])
+
   return (
     <div className="app">
       <div className="level">
@@ -11,9 +45,8 @@ function App() {
           <h1 className="title">Dark Mode Challenge</h1>
         </div>
 
-        {/* --The button that should toggle dark mode-- */}
-        <button className="app__dark-mode-btn icon level-right">
-          <FontAwesomeIcon icon={faMoon} />
+        <button className="app__dark-mode-btn icon level-right" onClick={handleToggleMode}>
+          {IconMap[mode]}
         </button>
 
       </div>
